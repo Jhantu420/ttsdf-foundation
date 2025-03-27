@@ -26,6 +26,7 @@ const createUser = async (req, res) => {
       branchName,
       branchCode,
       courseName,
+      highestQualification,
     } = req.body;
 
     const files = req.files || []; // ✅ Define files here
@@ -45,6 +46,7 @@ const createUser = async (req, res) => {
       !branchName ||
       !branchCode ||
       !courseName ||
+      !highestQualification||
       files.length === 0
     ) {
       return res.status(400).json({
@@ -200,6 +202,7 @@ const createUser = async (req, res) => {
       branchName,
       courseName,
       branchCode,
+      highestQualification,
       isVerified: false,
       verifyOtp: hashedOtp,
       verifyOtpExpireAt: otpExpires,
