@@ -65,11 +65,18 @@ const StudentList = () => {
           withCredentials: true,
         }
       );
-      setStudents(
-        students.map((stu) =>
-          stu._id === selectedStudent._id ? selectedStudent : stu
-        )
-      );
+      // setStudents(
+      //   students.map((stu) =>
+      //     stu._id === selectedStudent._id ? selectedStudent : stu
+      //   )
+      // );
+
+      // Fetch the latest data to update the state
+      const response = await axios.get(`${url}/api/v1/get-all-users`, {
+        withCredentials: true,
+      });
+      setStudents(response.data.data); // Set updated student list
+      setFilteredStudents(response.data.data);
       setIsModalOpen(false);
     } catch (error) {
       alert("Failed to update student!");
