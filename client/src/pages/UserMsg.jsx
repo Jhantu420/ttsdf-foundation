@@ -77,7 +77,7 @@ const UserMsg = () => {
                     <td className="border border-gray-300 px-4 py-2">{item.course}</td>
                     <td className="border border-gray-300 px-4 py-2">{new Date(item.createdAt).toLocaleString()}</td>
                     <td className="border border-gray-300 px-4 py-2">
-                      <button onClick={() => handleDelete(item._id, "applyData")} className="text-red-500 hover:text-red-700">
+                      <button onClick={() => handleDelete(item._id, "applyData")} className="text-red-500 hover:text-red-700 cursor-pointer">
                         <Trash2 size={20} />
                       </button>
                     </td>
@@ -106,7 +106,7 @@ const UserMsg = () => {
                     <p><strong>Course Name:</strong> {item.course}</p>
                     <p><strong>Applied At:</strong> {new Date(item.createdAt).toLocaleString()}</p>
                   </div>
-                  <button onClick={() => handleDelete(item._id, "applyData")} className="text-red-500 hover:text-red-700">
+                  <button onClick={() => handleDelete(item._id, "applyData")} className="text-red-500 hover:text-red-700 cursor-pointer">
                     <Trash2 size={20} />
                   </button>
                 </div>
@@ -128,7 +128,7 @@ const UserMsg = () => {
                     <p><strong>Course Name:</strong> {item.courseName}</p>
                     <p><strong>Applied At:</strong> {new Date(item.createdAt).toLocaleString()}</p>
                   </div>
-                  <button onClick={() => handleDelete(item._id, "applyCourse")} className="text-red-500 hover:text-red-700">
+                  <button onClick={() => handleDelete(item._id, "applyCourse")} className="text-red-500 hover:text-red-700 cursor-pointer">
                     <Trash2 size={20} />
                   </button>
                 </div>
@@ -150,7 +150,7 @@ const UserMsg = () => {
                     <p><strong>Message:</strong> {item.msg}</p>
                     <p><strong>Applied At:</strong> {new Date(item.createdAt).toLocaleString()}</p>
                   </div>
-                  <button onClick={() => handleDelete(item._id, "sendMsg")} className="text-red-500 hover:text-red-700">
+                  <button onClick={() => handleDelete(item._id, "sendMsg")} className="text-red-500 hover:text-red-700 cursor-pointer">
                     <Trash2 size={20} />
                   </button>
                 </div>
