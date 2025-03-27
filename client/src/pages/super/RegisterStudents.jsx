@@ -20,6 +20,7 @@ const RegisterStudents = () => {
     branchName: "",
     branchCode: "",
     courseName: "",
+    highestQualification: "",
     images: [],
   });
 
@@ -178,7 +179,11 @@ const RegisterStudents = () => {
               { label: "Date of Registration", name: "dor", type: "date" },
               { label: "Mobile Number", name: "mobile", type: "tel" },
               { label: "Email", name: "email", type: "email" },
-
+              {
+                label: "Highest Qualification",
+                name: "highestQualification",
+                type: "text",
+              },
             ].map(({ label, name, type }) => (
               <div key={name}>
                 <label className="block text-md font-medium text-white">
