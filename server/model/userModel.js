@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
     dor: { type: String, required: true },
     gender: { type: String, required: true },
     mobile: { type: String, required: true, unique: true },
+    highestQualification: {type: String, required: true},
     image: { type: String, default: "" },
     email: { type: String, required: true, unique: true },
     password: { type: String }, // Password required for normal login (not for Google login)
