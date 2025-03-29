@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaUserCircle } from "react-icons/fa";
+import { FaUserCircle, FaBell } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useAuth } from "../context/AppContext";
 import Logo from "../assets/logo.png";
-import { FaBell } from "react-icons/fa";
 
 const Navbar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -13,6 +12,7 @@ const Navbar = () => {
   const { user, setUser, url, notificationCount, branchCourseCount } = useAuth();
   const dropdownRef = useRef(null);
   const sidebarRef = useRef(null);
+
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
@@ -23,11 +23,9 @@ const Navbar = () => {
         setIsDropdownOpen(false);
       }
     };
-
     if (isDropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -40,11 +38,9 @@ const Navbar = () => {
         setIsSidebarOpen(false);
       }
     };
-
     if (isSidebarOpen) {
       document.addEventListener("mousedown", handleClickOutsideSidebar);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideSidebar);
     };
@@ -66,59 +62,52 @@ const Navbar = () => {
   };
 
   return (
-    <nav className=" border-gray-200 py-4 lg:py-6 bg-gray-900">
+    <nav className="border-gray-200 py-4 lg:py-6 bg-gray-900">
       <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-        {/* Logo Section */}
+
+        {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img
-            src={Logo}
-            className="h-10 sm:h-12 mr-3 rounded-full"
-            alt="TTSDF Logo"
-          />
-          <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
-            TTSDF
-          </span>
+          <img src={Logo} className="h-10 sm:h-12 mr-3 rounded-full" alt="TTSDF Logo" />
+          <span className="self-center text-xl font-semibold whitespace-nowrap text-white">TTSDF</span>
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center lg:order-1 space-x-8">
-          {["Home", "About", "Contact", "Courses", "Apply-Course"].map(
-            (item, index) => (
-              <div key={index}>
-                <Link
-                  to={`/${item === "Home" ? "" : item.toLowerCase()}`}
-                  className="relative text-gray-100 px-4 py-2 rounded-md transition-all duration-300 
-             hover:text-white after:content-[''] after:absolute after:bottom-0 
-             after:left-1/2 after:w-0 after:h-[2px] after:bg-white 
-             after:transition-all after:duration-300 after:ease-in-out 
-             hover:after:w-full hover:after:left-0"
-                >
-                  {item}
-                </Link>
-              </div>
-            )
-          )}
+        <div className="hidden lg:flex items-center lg:order-1 space-x-8 mx-30">
+          {["Home", "About", "Contact", "Courses", "Apply-Course"].map((item, index) => (
+            <div key={index}>
+              <Link
+                to={`/${item === "Home" ? "" : item.toLowerCase()}`}
+                className="relative text-gray-100 px-4 py-2 rounded-md transition-all duration-300 hover:text-white after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:w-0 after:h-[2px] after:bg-white after:transition-all after:duration-300 after:ease-in-out hover:after:w-full hover:after:left-0"
+              >
+                {item}
+              </Link>
+            </div>
+          ))}
         </div>
 
-        {/* User Dropdown & Sidebar Button */}
+        {/* Right Side Section */}
         <div className="flex items-center lg:order-2 gap-6 relative">
+
+          {/* Notification Icon */}
+          {(user?.role === "super" || user?.role === "branchAdmin") && (
+            <Link to="/users-msg" className="relative inline-block cursor-pointer">
+              <FaBell size={26} color="white" />
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full px-1.5 text-xs">
+                {user?.role === "super" ? notificationCount : branchCourseCount}
+              </span>
+            </Link>
+          )}
+
+          {/* User Dropdown */}
           {user ? (
             <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={toggleDropdown}
-                className="flex items-center gap-2 focus:outline-none"
-              >
+              <button onClick={toggleDropdown} className="flex items-center gap-2 focus:outline-none">
                 {user.role === "student" ? (
-                  <img
-                    src={user?.image}
-                    alt="User Profile"
-                    className="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-300 dark:border-gray-600"
-                  />
+                  <img src={user?.image} alt="User Profile" className="w-10 h-10 rounded-full cursor-pointer border-2 border-gray-300 dark:border-gray-600" />
                 ) : (
                   <FaUserCircle className="w-10 h-10 text-gray-500 dark:text-gray-300 cursor-pointer" />
                 )}
               </button>
-
               {isDropdownOpen && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
@@ -128,26 +117,16 @@ const Navbar = () => {
                 >
                   <div className="p-4 text-center border-b dark:border-gray-700">
                     {user.role === "student" ? (
-                      <img
-                        src={user?.image}
-                        alt="Profile"
-                        className="w-12 h-12 rounded-full mx-auto border border-gray-300 dark:border-gray-600"
-                      />
+                      <img src={user?.image} alt="Profile" className="w-12 h-12 rounded-full mx-auto border border-gray-300 dark:border-gray-600" />
                     ) : (
                       <FaUserCircle className="w-12 h-12 text-gray-500 dark:text-gray-300 mx-auto" />
                     )}
-                    <p className=" text-gray-200 font-medium mt-2">
-                      {user.name}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                      {user.role.toUpperCase()}
-                    </p>
+                    <p className="text-gray-200 font-medium mt-2">{user.name}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{user.role.toUpperCase()}</p>
                     <Link
-                      onClick={(e) => {
-                        setIsDropdownOpen(false);
-                      }}
+                      onClick={() => setIsDropdownOpen(false)}
                       to={`/${user.role}`}
-                      className={` text-white bg-purple-700 py-1 px-4 rounded-xl hover:bg-purple-800`}
+                      className="text-white bg-purple-700 py-1 px-4 rounded-xl hover:bg-purple-800"
                     >
                       Dashboard
                     </Link>
@@ -166,14 +145,8 @@ const Navbar = () => {
               )}
             </div>
           ) : (
-            <motion.div
-              whileHover={{ scale: 1.1 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <Link
-                to="/login"
-                className="text-white bg-purple-700 hover:bg-purple-800 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700"
-              >
+            <motion.div whileHover={{ scale: 1.1 }} transition={{ type: "spring", stiffness: 300 }}>
+              <Link to="/login" className="text-white bg-purple-700 hover:bg-purple-800 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700">
                 Login
               </Link>
             </motion.div>
@@ -184,52 +157,11 @@ const Navbar = () => {
             onClick={toggleSidebar}
             className="inline-flex items-center p-2 ml-3 text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700"
           >
-            <svg
-              className="w-6 h-6 text-black dark:text-white"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+            <svg className="w-6 h-6 text-black dark:text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
         </div>
-
-        {/* Notification icon */}
-        {(user?.role === "super") && (
-          <div>
-            <Link
-              to="/users-msg"
-              className="relative inline-block cursor-pointer"
-            >
-              <FaBell size={34} color="white" />{" "}
-              {/* Set the icon color to white */}
-              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full px-2 py-0.5 text-xs">
-                {notificationCount}
-              </span>
-            </Link>
-          </div>
-        )}
-        {/* Notification icon */}
-        {( user?.role === "branchAdmin") && (
-          <div>
-            <Link
-              to="/users-msg"
-              className="relative inline-block cursor-pointer"
-            >
-              <FaBell size={34} color="white" />{" "}
-              {/* Set the icon color to white */}
-              <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full px-2 py-0.5 text-xs">
-                {branchCourseCount}
-              </span>
-            </Link>
-          </div>
-        )}
       </div>
 
       {/* Sidebar */}
@@ -242,17 +174,8 @@ const Navbar = () => {
           className="fixed top-0 left-0 h-full w-64 bg-white dark:bg-gray-900 shadow-lg z-50 lg:hidden"
         >
           <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-            <img
-              src={Logo}
-              className="h-9 mr-3 sm:h-9 rounded-full"
-              alt="TTSDF Logo"
-            />
-            <button
-              onClick={toggleSidebar}
-              className="text-white hover:bg-purple-900 rounded-2xl p-2"
-            >
-              ✖
-            </button>
+            <img src={Logo} className="h-9 mr-3 sm:h-9 rounded-full" alt="TTSDF Logo" />
+            <button onClick={toggleSidebar} className="text-white hover:bg-purple-900 rounded-2xl p-2">✖</button>
           </div>
           <ul className="p-4 space-y-4">
             {["Home", "About", "Contact", "Courses"].map((item, index) => (
