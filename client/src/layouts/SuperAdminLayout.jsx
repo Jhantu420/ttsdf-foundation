@@ -25,7 +25,7 @@ const SuperAdminLayout = () => {
   }, [isSidebarOpen]);
 
   return (
-    <div className="flex md:h-[120vh]">
+    <div className="flex md:h-[140vh]">
       {/* Mobile Sidebar Toggle */}
       <button
         className="absolute top-4 left-4 md:hidden p-2 bg-blue-800 text-white rounded cursor-pointer hover:bg-blue-900 transition duration-300"
@@ -36,7 +36,7 @@ const SuperAdminLayout = () => {
 
       {/* Sidebar */}
       <div
-        className={`bg-gray-800 text-white p-5 w-64 h-full fixed md:relative z-50 transition-transform duration-300 ${
+        className={`bg-gray-800 text-white p-5 w-74 h-full fixed md:relative z-50 transition-transform duration-300 ${
           isSidebarOpen || window.innerWidth >= 768
             ? "translate-x-0"
             : "-translate-x-full"
