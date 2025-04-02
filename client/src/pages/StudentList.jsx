@@ -125,6 +125,14 @@ const StudentList = () => {
         onChange={handleSearch}
         className="w-full max-w-lg p-2 mb-4 border border-gray-900 rounded-md bg-gray-200"
       />
+      {students.length > 0 ? (
+        <div className="flex gap-2 bg-purple-800 text-white md:px-10 md:py-8  p-4 rounded-xl shadow-md mb-3">
+          <span className="md:text-2xl font-semibold">Total Students:</span>
+          <span className="md:text-2xl font-bold">{students.length}</span>
+        </div>
+      ) : (
+        <p className="text-red-600">No students found.....</p>
+      )}
 
       <div
         className="rounded-lg overflow-x-auto overflow-y-auto 
