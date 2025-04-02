@@ -70,7 +70,7 @@ const Courses = () => {
       // console.log("Form submitted successfully:", response.data);
       toast.success(response.data.message);
       setFormData({ courseName: "", name: "", ph: "" }); // Reset form
-      applyData()
+      applyData();
       close();
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -167,15 +167,93 @@ const Courses = () => {
                   }
                 })()}
               </ul>
-              {/* https://drive.google.com/file/d/160VIJaqIbmrHyc_ROoF1ceiRJFQyp-Ai/view?usp=sharing */}
-              <div>
-                <Link
-                  to="https://drive.google.com/file/d/160VIJaqIbmrHyc_ROoF1ceiRJFQyp-Ai/view?usp=sharing "
-                  className="w-full flex justify-center align-center mt-5 py-2 text-white bg-purple-600 cursor-pointer rounded-full hover:bg-purple-700 transform duration-300"
-                >
-                  Get Brochure
-                </Link>
-              </div>
+              {/* Get Brochure Popup */}
+              <Popup
+                trigger={(open) => (
+                  <div>
+                    <button className="w-full flex justify-center align-center mt-5 py-2 text-white bg-purple-600 cursor-pointer rounded-full hover:bg-purple-700 transform duration-300">
+                      Get Brochure
+                    </button>
+                  </div>
+                )}
+                modal
+                nested
+              >
+                {(close) => (
+                  <form
+                    className="bg-gray-700 p-6 rounded-lg shadow-lg w-96"
+                    onSubmit={async (e) => {
+                      e.preventDefault();
+
+                      if (!formData.name || !formData.ph) {
+                        toast.error("Please enter your name and phone number.");
+                        return;
+                      }
+
+                      try {
+                        const response = await axios.post(
+                          `${url}/api/v1/apply-in-a-course`,
+                          {
+                            ...formData,
+                            courseName: "Brochure Request",
+                          }
+                        );
+
+                        toast.success(response.data.message);
+
+                        setTimeout(() => {
+                          window.open(
+                            "https://drive.google.com/file/d/160VIJaqIbmrHyc_ROoF1ceiRJFQyp-Ai/view?usp=sharing",
+                            "_blank"
+                          );
+                          close();
+                        }, 1000);
+                      } catch (error) {
+                        console.error(
+                          "Error submitting brochure request:",
+                          error
+                        );
+                        toast.error(
+                          error.response?.data?.message ||
+                            "Something went wrong"
+                        );
+                      }
+                    }}
+                  >
+                    <h2 className="text-xl font-semibold text-white mb-4">
+                      Enter Your Details to Get the Brochure
+                    </h2>
+                    <div className="grid gap-5">
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter Your Name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        required
+                        className="p-2 rounded-md border border-gray-400 focus:ring-2 focus:ring-purple-500"
+                      />
+                      <input
+                        type="number"
+                        name="ph"
+                        placeholder="Enter Your Mobile No"
+                        value={formData.ph}
+                        onChange={handleInputChange}
+                        required
+                        className="p-2 rounded-md border border-gray-400 focus:ring-2 focus:ring-purple-500"
+                      />
+                    </div>
+                    <div>
+                      <button
+                        type="submit"
+                        className="w-full flex justify-center align-center mt-3 py-2 text-white bg-purple-600 cursor-pointer rounded-full hover:bg-purple-700 transform duration-300"
+                      >
+                        Submit & Get Brochure
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </Popup>
 
               {/* Apply Now Button & Popup */}
               <Popup
