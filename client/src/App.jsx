@@ -25,6 +25,8 @@ import ResetPassword from "./pages/ResetPassword";
 import ImageUploader from "./pages/super/ImageUploader";
 import CreateTeam from "./pages/super/CreateTeam";
 import UserMsg from "./pages/UserMsg";
+import Coe from "./pages/pdf/Coe";
+import Branches from "./pages/Branches";
 
 // ✅ Handle environment variables properly
 const googleClientId = import.meta.env?.VITE_GOOGLE_CLIENT_ID;
@@ -46,6 +48,8 @@ const App = () => {
             <Route path="/courses" element={<Courses />} />
             <Route path="/apply-course" element={<ApplyCourse />} />
             <Route path="/resetPassword/:token" element={<ResetPassword />} />
+            <Route path="generate-cirtificate" element={<Coe />} />
+            <Route path="/branches" element={<Branches />} />
             <Route
               path="/users-msg"
               element={
